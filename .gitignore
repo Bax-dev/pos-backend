@@ -1,0 +1,11 @@
+# Ignore backend-related files and directories
+v1/README.md
+
+# Ignore specific file types in backend
+/backend/*.log
+/backend/*.tmp
+/backend/*.env
+
+# Ignore node_modules directory
+/node_modules/
+/backend/node_modules/
