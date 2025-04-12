@@ -4,7 +4,8 @@ v1/README.md
 # Ignore specific file types in backend
 /backend/*.log
 /backend/*.tmp
-/backend/*.env
+.env
+
 
 # Ignore node_modules directory
 /node_modules/
