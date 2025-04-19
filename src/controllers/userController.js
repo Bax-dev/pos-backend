@@ -36,15 +36,15 @@ const login = async (req, res) => {
   try {
     console.log("Login API called with:", req.body);
     
-    const { email, password } = req.body;
-    const user = await Users.findOne({ where: { email } });
+    const { username, password } = req.body;
+    const user = await Users.findOne({ where: { username } });
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
     const token = jwt.sign(
-      { userId: user.id, email: user.email },
+      { userId: user.id, username: user.username },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
@@ -57,4 +57,21 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await Users.findAll({
+      attributes: { exclude: ["password"] } // hide passwords
+    });
+
+    res.status(200).json({
+      message: "Users fetched successfully",
+      users,
+    });
+  } catch (error) {
+    console.error("Get all users error:", error);
+    res.status(500).json({ error: "Error fetching users" });
+  }
+};
+
+
+module.exports = { register, login, getAllUsers };
